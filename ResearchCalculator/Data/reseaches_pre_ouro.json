@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Bank Capacity Analysis 1",
+    "start_cost": 5,
+    "rp_multiplier": 1,
+    "level": 1,
+    "growth_exponent": 20,
+    "max_level": 3
+  },
+  {
+    "name": "Credle tech analysis 1",
+    "start_cost": 5,
+    "rp_multiplier": 1,
+    "level": 1,
+    "growth_exponent": 50,
+    "max_level": 3
+  },
+  {
+    "name": "Level point extraction 1",
+    "start_cost": 50,
+    "rp_multiplier": 1,
+    "level": 1,
+    "growth_exponent": 80,
+    "max_level": 3
+  },
+  {
+    "name": "Time dialation analysis 1",
+    "start_cost": 60,
+    "rp_multiplier": 1,
+    "level": 3,
+    "growth_exponent": 160,
+    "max_level": 3
+  }
+]
