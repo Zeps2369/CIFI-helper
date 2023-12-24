@@ -1,1 +1,8 @@
-[{ "tick_speed": 8, "tocks": 1, "ticks_pr_study": 10, "study_multiplier": 2 }]
+[
+  {
+    "tick_speed": 8,
+    "tocks": 1,
+    "ticks_pr_study": 10,
+    "study_multiplier": 2
+  }
+]
