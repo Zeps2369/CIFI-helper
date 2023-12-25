@@ -13,22 +13,33 @@ class Research:
     def update_level(self):
         self.level += 1
 
-    def calculate_research_time(self, tick_speed, tocks, ticks_pr_study, study_multiplier, rp_gain):
+    def calculate_actual_cost(self):
+        return self.start_cost * (self.growth_exponent ** (self.level - 1))
+
+    def calculate_static_research_time(self, user_info, rp_gain):
         # Calculate the time it takes to complete a research
         # formula = start_cost * (growth_exponent ** (level - 1)) / rp_gain
         study_count_required = self.start_cost * \
             (self.growth_exponent ** (self.level - 1)) / rp_gain
 
-        return (((study_count_required / study_multiplier) * ticks_pr_study) / tocks) * tick_speed
+        return (((study_count_required / user_info.studies_pr_study) * user_info.ticks_pr_study) / user_info.tocks) * user_info.tick_speed
+
+    def calculate_dynamic_research_time(self, user_info, rp_gain):
+        rp_gained = 0
+        tick = 0
+        while rp_gained < self.calculate_actual_cost():
+            rp_gained += rp_gain
+            tick += 1
+        return tick * user_info.tick_speed
 
 
 class UserInfo:
 
-    def __init__(self, tick_speed, tocks, ticks_pr_study, study_multiplier):
+    def __init__(self, tick_speed, tocks, ticks_pr_study, studies_pr_study):
         self.tick_speed = tick_speed
         self.tocks = tocks
         self.ticks_pr_study = ticks_pr_study
-        self.study_multiplier = study_multiplier
+        self.studies_pr_study = studies_pr_study
 
 
 def load_researches_from_json(file_path):
@@ -56,7 +67,7 @@ def load_user_info_from_json(file_path):
     for item in data:
         try:
             user_info.append(UserInfo(
-                item['tick_speed'], item['tocks'], item['ticks_pr_study'], item['study_multiplier']))
+                item['tick_speed'], item['tocks'], item['ticks_pr_study'], item['studies_pr_study']))
         except Exception as e:
             print(f"Error creating Research object: {e}")
 
@@ -72,8 +83,7 @@ user_info = load_user_info_from_json(
 
 rp_gain = int(input("RP gain: "))
 
-time = researches[0].calculate_research_time(
-    user_info[0].tick_speed, user_info[0].tocks, user_info[0].ticks_pr_study, user_info[0].study_multiplier, rp_gain)
+time = researches[0].calculate_research_time(user_info[0], rp_gain)
 print(f"Time to complete {researches[0].name}: {time} seconds")
 
 
