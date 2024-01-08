@@ -27,14 +27,36 @@ class Research:
 
 research = Research("test", 100, 1.1, 1, 1.1, 10)
 
+    def update_level(self):
+        self.level += 1
+
+    def calculate_actual_cost(self):
+        return self.start_cost * (self.growth_exponent ** (self.level - 1))
+
+    def calculate_static_research_time(self, user_info, rp_gain):
+        # Calculate the time it takes to complete a research
+        # formula = start_cost * (growth_exponent ** (level - 1)) / rp_gain
+        study_count_required = self.start_cost * \
+            (self.growth_exponent ** (self.level - 1)) / rp_gain
+
+        return (((study_count_required / user_info.studies_pr_study) * user_info.ticks_pr_study) / user_info.tocks) * user_info.tick_speed
+
+    def calculate_dynamic_research_time(self, user_info, rp_gain):
+        rp_gained = 0
+        tick = 0
+        while rp_gained < self.calculate_actual_cost():
+            rp_gained += rp_gain
+            tick += 1
+        return tick * user_info.tick_speed
+
 
 class UserInfo:
 
-    def __init__(self, tick_speed, tocks, ticks_pr_study, study_multiplier):
+    def __init__(self, tick_speed, tocks, ticks_pr_study, studies_pr_study):
         self.tick_speed = tick_speed
         self.tocks = tocks
         self.ticks_pr_study = ticks_pr_study
-        self.study_multiplier = study_multiplier
+        self.studies_pr_study = studies_pr_study
 
 
 def load_researches_from_json(file_path):
@@ -59,10 +81,10 @@ def load_user_info_from_json(file_path):
 
     user_info = []
     # Assuming 'researches' is the key in your JSON file
-    for item in data['user_info']:
+    for item in data:
         try:
             user_info.append(UserInfo(
-                item['tick_speed'], item['tocks'], item['ticks_pr_study'], item['study_multiplier']))
+                item['tick_speed'], item['tocks'], item['ticks_pr_study'], item['studies_pr_study']))
         except Exception as e:
             print(f"Error creating Research object: {e}")
 
@@ -76,14 +98,9 @@ researches = load_researches_from_json(
 user_info = load_user_info_from_json(
     'ResearchCalculator/Data/user_info.json')
 
-for research in researches:
-    print(research.__dict__)
-#
-# for user_info in user_info:
-#    print(user_info.__dict__)
-
 rp_gain = int(input("RP gain: "))
 
+<<<<<<< HEAD
 
 def calculate_research_time(start_cost, growth_exponent, level, tick_speed, tocks, ticks_pr_study, study_multiplier, rp_gain):
     # Calculate the time it takes to complete a research
@@ -92,6 +109,10 @@ def calculate_research_time(start_cost, growth_exponent, level, tick_speed, tock
         (growth_exponent ** (level - 1)) / rp_gain
 
     return (((study_count_required / study_multiplier) * ticks_pr_study) / tocks) * tick_speed
+=======
+time = researches[0].calculate_research_time(user_info[0], rp_gain)
+print(f"Time to complete {researches[0].name}: {time} seconds")
+>>>>>>> 851348189509d22c43f28ad6aaeaeb21bec955bd
 
 
 def update_research_level_json(researches, file_path):
@@ -104,6 +125,7 @@ def update_user_info_json(user_info, file_path):
     # Update the level of a research in the json file
     with open(file_path, 'w') as f:
         f.write(json.dumps(user_info, default=lambda x: x.__dict__))
+<<<<<<< HEAD
 
 
 def main():
@@ -112,3 +134,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+=======
+>>>>>>> 851348189509d22c43f28ad6aaeaeb21bec955bd
