@@ -24,12 +24,6 @@ class Research:
         self.amount = self.start_cost * \
             (self.growth_exponent ** (self.level - 1))
 
-
-research = Research("test", 100, 1.1, 1, 1.1, 10)
-
-    def update_level(self):
-        self.level += 1
-
     def calculate_actual_cost(self):
         return self.start_cost * (self.growth_exponent ** (self.level - 1))
 
@@ -51,7 +45,6 @@ research = Research("test", 100, 1.1, 1, 1.1, 10)
 
 
 class UserInfo:
-
     def __init__(self, tick_speed, tocks, ticks_pr_study, studies_pr_study):
         self.tick_speed = tick_speed
         self.tocks = tocks
@@ -100,7 +93,6 @@ user_info = load_user_info_from_json(
 
 rp_gain = int(input("RP gain: "))
 
-<<<<<<< HEAD
 
 def calculate_research_time(start_cost, growth_exponent, level, tick_speed, tocks, ticks_pr_study, study_multiplier, rp_gain):
     # Calculate the time it takes to complete a research
@@ -109,10 +101,6 @@ def calculate_research_time(start_cost, growth_exponent, level, tick_speed, tock
         (growth_exponent ** (level - 1)) / rp_gain
 
     return (((study_count_required / study_multiplier) * ticks_pr_study) / tocks) * tick_speed
-=======
-time = researches[0].calculate_research_time(user_info[0], rp_gain)
-print(f"Time to complete {researches[0].name}: {time} seconds")
->>>>>>> 851348189509d22c43f28ad6aaeaeb21bec955bd
 
 
 def update_research_level_json(researches, file_path):
@@ -125,7 +113,6 @@ def update_user_info_json(user_info, file_path):
     # Update the level of a research in the json file
     with open(file_path, 'w') as f:
         f.write(json.dumps(user_info, default=lambda x: x.__dict__))
-<<<<<<< HEAD
 
 
 def main():
@@ -134,5 +121,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-=======
->>>>>>> 851348189509d22c43f28ad6aaeaeb21bec955bd
